@@ -1,6 +1,6 @@
 name: Database passwords
 
-# We have two Database Connection String patterns: one with Password= before any other keyword, and one with Password= after any other keyword
+# We have two Database Connection String patterns: one with Password= before any other keyword, and one with Password= after any other keyword 
 
 # we define the pattern by what we don't want it to match
 # - ; or ", since those are the end of the password/secret field and the end of the connection string respectively
