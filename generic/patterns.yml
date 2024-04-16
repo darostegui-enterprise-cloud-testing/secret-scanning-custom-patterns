@@ -26,6 +26,11 @@ patterns:
         # reference to a member variable, index into a variable, bash variables, perl hash key index, environment vars
         - ^\s*(?:(?:self|this)\.[a-zA-Z_][a-zA-Z0-9_.]+[,[]?|[a-zA-Z0-9_.]+\[(?:[a-zA-Z0-9_.]+)?\]?|\$(?:[1-9]|[A-Za-z0-9_]+)\{?|os\.environ\[[^\]]\]|process\.env\.[A-Z0-9_]+)\s*(?:,|\|\||&&)?\s*$
 
+    test:
+      data: password=Password123
+      start_offset: 9
+      end_offset: -1
+
     expected:
       - name: passwords.js
         start_offset: 14
@@ -58,6 +63,12 @@ patterns:
         - ^00000000-0000-0000-0000-000000000000$
         - ^(?i)00010203-0405-0607-0809-0a0b0c0d0e0f$
         - ^(?i)12345678-1234-1234-1234-123456789abc$
+
+    test:
+      - data: 10203040-5060-7080-90a0-b0c0d0e0f000
+        start_offset: 0
+        end_offset: -1
+
     expected:
       - name: uuids.txt
         start_offset: 12
@@ -72,11 +83,11 @@ patterns:
   - name: Bearer Tokens
     type: bearer_tokens
     regex:
-      version: 0.1
+      version: 0.2
       pattern: |
         [a-zA-Z0-9_.=/+:-]+
       start: |
-        ['"\s][Aa]uthorization: Bearer[ ]+
+        \b([Bb]earer|[Tt]oken)[ ]+
       end: |
         \z|[\s'"]
       additional_not_match:
@@ -92,6 +103,31 @@ patterns:
       - name: bearer.txt
         start_offset: 99
         end_offset: 118
+    test:
+      - data: "Authorization: Bearer FAKETOKENFORTESTING"
+        start_offset: 23
+        end_offset: 42
     comments:
       - "As used in an Authorization header"
       - "We try to remove common placeholders"
+
+  - name: OAuth client secret and ID pair
+    type: oauth_client_secret
+    regex:
+      version: 0.1
+      pattern: |
+        (?i)client[_.-]?Id\s*([:=]|[=-]>|to|[!=]={1,2}|<>)\s*['"`]?[^\s'"`[\]{}()<>]+['"`]?\s*[,\r\n]\s*\bclient[_.-]?Secret\s*([:=]|[=-]>|to|[!=]={1,2}|<>)\s*['"`]?[^\s'"`[\]{}()<>]+['"`]?
+      start: |
+        \A|\b
+      end: |
+        \z|\b
+      additional_not_match:
+        - ^(?i)client[_.-]?id\s*[:=]?\s*(string|str|None)\b|\.\.\.|\(string\)|(?i)Client(ID|Secret)[a-z]|^(?i)client[_.-]?id["'`]\)|"\$\{
+        - ^(?i)client[_.-]?id\s*[=:]\s*([a-z.]+(\[|\.get\())?["'`]?(\$\{|@)?[a-z0-9_.-]*((client|app)[_.-]?id|key)\b
+        - (?i)client[_.-]?secret\s*[=:]\s*["'`]?(\$\{|@)?[a-z_.-]*(secret|token)\b
+        - ^(?i)client[_.-]?Id(:.,|:\s*client[_.-]?secret:)
+        - xxxxx|\?\?\?\?\?|example|00000|123-?45|['"][^'"\s]{1,5}['"]|(?i)<client[_-]?id>
+    test:
+      - data: |
+          client_id = '1234567890'
+          client_secret = 'thisisaverysecretkey'
