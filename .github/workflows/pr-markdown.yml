@@ -1,6 +1,7 @@
 name: Markdown Validation
 permissions:
   contents: read
+  pull-requests: write
 
 on:
   pull_request:
@@ -27,8 +28,6 @@ jobs:
           token: ${{ steps.get_workflow_token.outputs.token }}
 
       - name: Check git status
-        env:
-          GH_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
         run: |
           if [ -z "$(git status --porcelain)" ]; then
             gh pr comment --edit-last ${{ github.event.number }} \
