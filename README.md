@@ -34,6 +34,8 @@ Custom Secret Scanning Patterns repository.
 
 
 
+- Database Connection String (full string)
+
 - Database Connection String (1)
 
 - Database Connection String (2)
@@ -41,13 +43,25 @@ Custom Secret Scanning Patterns repository.
 - Database Connection String (3)
 
 - TSQL CREATE LOGIN/USER
+
+- SQLAlchemy Database Connection String
+
+- MongoDB connection string
+
+- JDBC Database Connection String
   
 
 ### [Generic Secrets / Passwords](./generic)
 
 
 
-- Generic Passwords
+- Generic Passwords (fewer FPs)
+
+- Generic Password with hex encoded secrets
+
+- Generic Password with Base64 encoded secrets
+
+- Generic Password with URI-safe Base64 encoded secrets
 
 - UUIDs
 
@@ -85,6 +99,14 @@ Custom Secret Scanning Patterns repository.
 - Credit Cards - Discover
 
 - IBAN
+
+- Norwegian national identity number/D number
+
+- US Social Security number
+
+- US Individual Taxpayer Identification Number (ITIN)
+
+- UK National Insurance Number
   
 
 ### [RSA Keys](./rsa)
@@ -135,6 +157,8 @@ Custom Secret Scanning Patterns repository.
 
 - Okta token
 
+- Okta API key (precise)
+
 - DataDog API key
 
 - DataDog APP key
@@ -163,9 +187,39 @@ Custom Secret Scanning Patterns repository.
 
 - Vercel OAuth client secrets
 
-- MongoDB connection string
-
 - UUIDv4 Bearer token (maybe Heroku)
 
 - Azure client secret
+
+- Google private key id (or older API key)
+
+- OpenStack password/API key
+
+- AlienVault OTX API key
+
+- Apollo.io API key
+
+- ClickUp API key
+
+- Amazon MWS Auth Token
+
+- Jenkins API token
+
+- AWS S3 presigned URL
+
+- Azure Access Key (legacy format)
+
+- Azure Shared Access Signature (SAS) Token
+
+- CircleCI API token
+
+- AWS Key ID (standalone)
+
+- Azure generic key
+
+- Azure generic key (legacy)
+
+- AWS Bedrock API Key
+
+- AWS Bedrock API Key (2)
   
